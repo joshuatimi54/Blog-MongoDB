@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const blogRoutes = require('./routes/blogRoutes')
+const blogRoutes = require('./routes/blogRoutes');
 
 // express app
 const app = express();
@@ -20,17 +20,20 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
-// routes
-app.get('/', (req, res) => {
-    res.redirect('/blogs');
-});
+// blog routes
+app.use('/blogs',blogRoutes);
 
+// routes
 app.get('/about', (req, res) => {
     res.render('about', { title: 'About' });
 });
 
-// blog routes
-app.use('/blogs',blogRoutes);
+app.get('/', (req, res) => {
+    res.redirect('/blogs');
+});
+
+
+
 
 //404 page
 app.use((req, res) => {
